@@ -5,9 +5,7 @@
 class block_library extends block_base {
 
 	function init() {
-
-		$this->title = get_string('library', 'block_library');
-		$this->version = 2007082301;
+		$this->title = get_string('pluginname', 'block_library');
 	}
 
 	function instance_allow_config() {
@@ -20,8 +18,17 @@ class block_library extends block_base {
 	}
 
 	function specialization() {
-		//$this->title = $this->config->title;
-		$this->title = 'UPEI Library Resources';
+    global $CFG;
+    if($CFG->configtitle)
+    {
+    $this->config->title = $CFG->configtitle;
+   
+    }
+    else {
+      $this->config->title = 'UPEI Library Resources';
+    }
+     $this->title = $this->config->title;
+		
 	}
 
 	function has_config() {
@@ -35,7 +42,7 @@ class block_library extends block_base {
 	function get_content() {
 		global $CFG, $editing, $COURSE, $USER;
 		require_once ($CFG->libdir . '/rsslib.php');
-		require_once (MAGPIE_DIR . 'rss_fetch.inc');
+		require_once ($CFG->libdir.'/simplepie/simplepie.class.php');
 
 		//require_login();
 		if ($this->content !== NULL) {
@@ -43,40 +50,41 @@ class block_library extends block_base {
 		}
 
 		$this->content = new stdClass;
+    global $CFG;
+    $this->config->text=$CFG->configcontent;
 		$this->content->text = $this->config->text;
 		//$this->content->text = $this->content->text.$COURSE->idnumber;
 		
 		//$this->content->text = $this->content->text . getRSS("http://www.lmmontgomery.ca/blog/feed");
 		//$this->content->text .=getRSS("http://localhost/dbofdbs/courseDBRssFeed.php?course=$COURSE->idnumber");
-		$this->content->text .=getRSS("http://resources.library.upei.ca/dbofdbs/courseDBRssFeed.php?course=$COURSE->idnumber");
+		$this->content->text .=getRSS("http://resources.library.upei.ca/dbofdbs/courseDBRssFeed.php?course=$COURSE->id");
 		//$this->content->footer = "<div style='text-align: center;'> <a href='http://www.upei.ca/library' target='_blank'>Robertson Library</a></div>";
 		//$this->content->footer='<br><form action="http://www.oxfordreference.com.rlproxy.upei.ca/views/SEARCH_RESULTS.html" method="get" target="_blank"><input name="category" value="t62" type="hidden" /><input name="scope" value="book" type="hidden" /><input name="index" value="default" type="hidden" /><input name="q" type="text" />
-//<input value="Define This" type="submit" /></form>';
+    //<input value="Define This" type="submit" /></form>';
 		$this->content->text .=getStaticStuff();
+    
         return $this->content;
 	}
 }
 
 function getRSS($rssURL) {
 	$output = '';
-	$rss = fetch_rss($rssURL);
-	//if(!empty($rss->items)){
-	//	$output = $output .$rss->channel['title'];
-
-
-	//}
+  $simplepie = new SimplePie();
+  $simplepie->set_feed_url($rssURL);
+  $simplepie->init();
+  if ($simplepie->get_item_quantity() != 0) {
+    $title = $simplepie->get_title();
+    $output .= $title;
+  }
 	$output=$output.'<ul style="list-style-position: outside; margin-left: 0; padding-left: 1em; margin-top: 0; padding-top 0;">';
 
-	if($rss){
-	foreach ($rss->items as $item) {
-		$_title = $item[title];
-		//$_description = $item[description];
-		$_url = $item[link];
-		$output = $output . "<li><a href='$_url' target=\"_blank\">$_title</a></li>";
-	}
-	}//else{
-	//	echo "Error: ".magpie_error();
-	//}
+	if ($simplepie->get_item_quantity() != 0) {
+    foreach ($simplepie->get_items() as $item) {
+      $_title = $item->get_title();
+      $_url = $item->get_link();
+      $output = $output . "<li><a href='$_url' target=\"_blank\">$_title</a></li>";
+    }
+  }
 	$output=$output."</ul>";
 	return $output;
 }
