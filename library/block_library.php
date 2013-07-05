@@ -42,7 +42,7 @@ class block_library extends block_base {
 	function get_content() {
 		global $CFG, $editing, $COURSE, $USER;
 		require_once ($CFG->libdir . '/rsslib.php');
-		require_once ($CFG->libdir.'/simplepie/simplepie.class.php');
+		require_once ($CFG->libdir.'/simplepie/moodle_simplepie.php');
 
 		//require_login();
 		if ($this->content !== NULL) {
