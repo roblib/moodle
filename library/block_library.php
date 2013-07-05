@@ -53,11 +53,7 @@ class block_library extends block_base {
     global $CFG;
     $this->config->text=$CFG->configcontent;
 		$this->content->text = $this->config->text;
-		//$this->content->text = $this->content->text.$COURSE->idnumber;
-		
-		//$this->content->text = $this->content->text . getRSS("http://www.lmmontgomery.ca/blog/feed");
-		//$this->content->text .=getRSS("http://localhost/dbofdbs/courseDBRssFeed.php?course=$COURSE->idnumber");
-		$this->content->text .=getRSS("http://resources.library.upei.ca/dbofdbs/courseDBRssFeed.php?course=$COURSE->id");
+		$this->content->text .=getRSS("http://resources.library.upei.ca/dbofdbs/courseDBRssFeed.php?course=$COURSE->idnumber");
 		//$this->content->footer = "<div style='text-align: center;'> <a href='http://www.upei.ca/library' target='_blank'>Robertson Library</a></div>";
 		//$this->content->footer='<br><form action="http://www.oxfordreference.com.rlproxy.upei.ca/views/SEARCH_RESULTS.html" method="get" target="_blank"><input name="category" value="t62" type="hidden" /><input name="scope" value="book" type="hidden" /><input name="index" value="default" type="hidden" /><input name="q" type="text" />
     //<input value="Define This" type="submit" /></form>';
