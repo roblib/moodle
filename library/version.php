@@ -25,5 +25,5 @@
 
 
 $plugin->version   = 2013070200;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2012112900;        // Requires this Moodle version
-$plugin->component = 'library';     // Full name of the plugin (used for diagnostics)
+$plugin->requires  = 2013050100;        // Requires this Moodle version
+$plugin->component = 'block_library';     // Full name of the plugin (used for diagnostics)
