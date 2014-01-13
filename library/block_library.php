@@ -85,9 +85,9 @@ function getRSS($rssURL) {
 	return $output;
 }
 function getStaticStuff(){
-	$craftyLink .= "<script src=\"https://libraryh3lp.com/js/libraryh3lp.js?multi\" type=\"text/javascript\"></script>
+	$craftyLink .= "<script src=\"https://ca.libraryh3lp.com/js/libraryh3lp.js?multi\" type=\"text/javascript\"></script>
   <div class=\"needs-js\" style=\"display: none\" oldblock=\"block\">Library ASK US requires JavaScript. </div>
-  <div class=\"libraryh3lp\" style=\"display: block\" oldblock=\"block\" jid=\"upeimoodle@chat.libraryh3lp.com\"><iframe style=\"border-right: #4d759a 1px solid; border-top: #4d759a 1px solid; border-left: #4d759a 1px solid; width: 170px; border-bottom: #4d759a 1px solid; height: 180px\" src=\"https://libraryh3lp.com/chat/upeimoodle@chat.libraryh3lp.com?skin=7721&theme=gota&title=Library%20ASK%20US&identity=library%20staff\" frameborder=\"1\"></iframe></div>
+  <div class=\"libraryh3lp\" style=\"display: block\" oldblock=\"block\" jid=\"upeimoodle@chat.ca.libraryh3lp.com\"><iframe style=\"border-right: #4d759a 1px solid; border-top: #4d759a 1px solid; border-left: #4d759a 1px solid; width: 170px; border-bottom: #4d759a 1px solid; height: 180px\" src=\"https://ca.libraryh3lp.com/chat/upeimoodle@chat.ca.libraryh3lp.com?skin=7721&theme=gota&title=Library%20ASK%20US&identity=library%20staff\" frameborder=\"1\"></iframe></div>
   <div class=\"libraryh3lp\" style=\"display: none\">Library ASK US is currently offline. Please <a href=\"http://library.upei.ca/node/527\">check our other contact options.</a> </div>
   <div><br /></div>" ;
 
