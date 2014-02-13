@@ -97,7 +97,7 @@ function getStaticStuff(){
         var y = document.getElementsByTagName("script")[0]; y.parentNode.insertBefore(x, y);
       })();
     </script>
-    EOF;
+EOF;
 	// this is the previous version of the libraryh3lp code.
 	/* .= "<script src=\"https://ca.libraryh3lp.com/js/libraryh3lp.js?multi\" type=\"text/javascript\"></script>
   <div class=\"needs-js\" style=\"display: none\" oldblock=\"block\">Library ASK US requires JavaScript. </div>
