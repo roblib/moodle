@@ -85,18 +85,29 @@ function getRSS($rssURL) {
 	return $output;
 }
 function getStaticStuff(){
-	$craftyLink .= "<script src=\"https://ca.libraryh3lp.com/js/libraryh3lp.js?multi\" type=\"text/javascript\"></script>
+	$craftyLink = <<<EOF
+    <!-- Place this div in your web page where you want your chat widget to appear. -->
+    <div class="needs-js">JavaScript disabled or chat unavailable.</div>
+
+    <!-- Place this script as near to the end of your BODY as possible. -->
+    <script type="text/javascript">
+      (function() {
+        var x = document.createElement("script"); x.type = "text/javascript"; x.async = true;
+        x.src = (document.location.protocol === "https:" ? "https://" : "http://") + "ca.libraryh3lp.com/js/libraryh3lp.js?235";
+        var y = document.getElementsByTagName("script")[0]; y.parentNode.insertBefore(x, y);
+      })();
+    </script>
+    EOF;
+	// this is the previous version of the libraryh3lp code.
+	/* .= "<script src=\"https://ca.libraryh3lp.com/js/libraryh3lp.js?multi\" type=\"text/javascript\"></script>
   <div class=\"needs-js\" style=\"display: none\" oldblock=\"block\">Library ASK US requires JavaScript. </div>
   <div class=\"libraryh3lp\" style=\"display: block\" oldblock=\"block\" jid=\"upeimoodle@chat.ca.libraryh3lp.com\"><iframe style=\"border-right: #4d759a 1px solid; border-top: #4d759a 1px solid; border-left: #4d759a 1px solid; width: 170px; border-bottom: #4d759a 1px solid; height: 180px\" src=\"https://ca.libraryh3lp.com/chat/upeimoodle@chat.ca.libraryh3lp.com?skin=7721&theme=gota&title=Library%20ASK%20US&identity=library%20staff\" frameborder=\"1\"></iframe></div>
   <div class=\"libraryh3lp\" style=\"display: none\">Library ASK US is currently offline. Please <a href=\"http://library.upei.ca/node/527\">check our other contact options.</a> </div>
   <div><br /></div>" ;
-
-    $craftyLink = $craftyLink."<div  style=\"margin-bottom: 0; padding-bottom: 0;\"><a href='http://library.upei.ca/' target='_blank'>Library Homepage</a><br>";
+       */
+    $craftyLink .= "<div  style=\"margin-bottom: 0; padding-bottom: 0;\"><a href='http://library.upei.ca/' target='_blank'>Library Homepage</a><br>";
 	$craftyLink .= "<a href = 'http://resources.library.upei.ca/plagiarism/index.htm' target='_blank'>Avoiding Plagiarism</a>";
 	$craftyLink .='<form action="http://islandpines.roblib.upei.ca/opac/en-US/skin/roblib/xml/rresult.xml" method="get" target="_blank"><input name="rt" value="keyword" type="hidden" /><input name="tp" value="keyword" type="hidden" /><input name="t" size="17" value="Search Library Catalogue..." onblur="this.value = this.value || this.defaultValue; this.style.color = \'#999\';" type="text" onFocus="this.value=\'\'" style="color: rgb(153, 153, 153);"/><input value="Go" type="submit" /></form></div><br />';
-
-	
-	
 
 	return $craftyLink;
 }
