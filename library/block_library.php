@@ -4,67 +4,64 @@
 
 class block_library extends block_base {
 
-	function init() {
-		$this->title = get_string('pluginname', 'block_library');
-	}
+  function init() {
+    $this->title = get_string('pluginname', 'block_library');
+  }
 
-	function instance_allow_config() {
-		return true;
-	}
-	function applicable_formats() {
-		return array (
-			'all' => true
-		);
-	}
+  function instance_allow_config() {
+    return true;
+  }
 
-	function specialization() {
+  function applicable_formats() {
+    return array(
+      'all' => true
+    );
+  }
+
+  function specialization() {
     global $CFG;
-    if($CFG->configtitle)
-    {
-    $this->config->title = $CFG->configtitle;
-   
+    if ($CFG->configtitle) {
+      $this->config->title = $CFG->configtitle;
+
     }
     else {
       $this->config->title = 'UPEI Library Resources';
     }
-     $this->title = $this->config->title;
-		
-	}
+    $this->title = $this->config->title;
 
-	function has_config() {
-		return true;
-	}
+  }
 
-	function instance_allow_multiple() {
-		return true;
-	}
+  function has_config() {
+    return true;
+  }
 
-	function get_content() {
-		global $CFG, $editing, $COURSE, $USER;
-		require_once ($CFG->libdir . '/rsslib.php');
-		require_once ($CFG->libdir.'/simplepie/moodle_simplepie.php');
+  function instance_allow_multiple() {
+    return true;
+  }
 
-		//require_login();
-		if ($this->content !== NULL) {
-			return $this->content;
-		}
+  function get_content() {
+    global $CFG, $editing, $COURSE, $USER;
+    require_once($CFG->libdir . '/rsslib.php');
+    require_once($CFG->libdir . '/simplepie/moodle_simplepie.php');
 
-		$this->content = new stdClass;
+    //require_login();
+    if ($this->content !== NULL) {
+      return $this->content;
+    }
+
+    $this->content = new stdClass;
     global $CFG;
-    $this->config->text=$CFG->configcontent;
-		$this->content->text = $this->config->text;
-		$this->content->text .=getRSS("http://resources.library.upei.ca/dbofdbs/courseDBRssFeed.php?course=$COURSE->idnumber");
-		//$this->content->footer = "<div style='text-align: center;'> <a href='http://www.upei.ca/library' target='_blank'>Robertson Library</a></div>";
-		//$this->content->footer='<br><form action="http://www.oxfordreference.com.rlproxy.upei.ca/views/SEARCH_RESULTS.html" method="get" target="_blank"><input name="category" value="t62" type="hidden" /><input name="scope" value="book" type="hidden" /><input name="index" value="default" type="hidden" /><input name="q" type="text" />
-    //<input value="Define This" type="submit" /></form>';
-		$this->content->text .=getStaticStuff();
-    
-        return $this->content;
-	}
+    $this->config->text = $CFG->configcontent;
+    $this->content->text = $this->config->text;
+    $this->content->text .= getRSS("http://resources.library.upei.ca/dbofdbs/courseDBRssFeed.php?course=$COURSE->idnumber");
+    $this->content->text .= getStaticStuff();
+
+    return $this->content;
+  }
 }
 
 function getRSS($rssURL) {
-	$output = '';
+  $output = '';
   $simplepie = new SimplePie();
   $simplepie->set_feed_url($rssURL);
   $simplepie->init();
@@ -72,24 +69,24 @@ function getRSS($rssURL) {
     $title = $simplepie->get_title();
     $output .= $title;
   }
-	$output=$output.'<ul style="list-style-position: outside; margin-left: 0; padding-left: 1em; margin-top: 0; padding-top 0;">';
+  $output = $output . '<ul style="list-style-position: outside; margin-left: 0; padding-left: 1em; margin-top: 0; padding-top 0;">';
 
-	if ($simplepie->get_item_quantity() != 0) {
+  if ($simplepie->get_item_quantity() != 0) {
     foreach ($simplepie->get_items() as $item) {
       $_title = $item->get_title();
       $_url = $item->get_link();
       $output = $output . "<li><a href='$_url' target=\"_blank\">$_title</a></li>";
     }
   }
-	$output=$output."</ul>";
-	return $output;
+  $output = $output . "</ul>";
+  return $output;
 }
-function getStaticStuff(){
-	$craftyLink = <<<EOF
+
+function getStaticStuff() {
+  $craftyLink = <<<EOF
+    <!-- LibraryH3lp Block -->
     <!-- Place this div in your web page where you want your chat widget to appear. -->
     <div class="needs-js">JavaScript disabled or chat unavailable.</div>
-
-    <!-- Place this script as near to the end of your BODY as possible. -->
     <script type="text/javascript">
       (function() {
         var x = document.createElement("script"); x.type = "text/javascript"; x.async = true;
@@ -98,17 +95,31 @@ function getStaticStuff(){
       })();
     </script>
 EOF;
-	// this is the previous version of the libraryh3lp code.
-	/* .= "<script src=\"https://ca.libraryh3lp.com/js/libraryh3lp.js?multi\" type=\"text/javascript\"></script>
-  <div class=\"needs-js\" style=\"display: none\" oldblock=\"block\">Library ASK US requires JavaScript. </div>
-  <div class=\"libraryh3lp\" style=\"display: block\" oldblock=\"block\" jid=\"upeimoodle@chat.ca.libraryh3lp.com\"><iframe style=\"border-right: #4d759a 1px solid; border-top: #4d759a 1px solid; border-left: #4d759a 1px solid; width: 170px; border-bottom: #4d759a 1px solid; height: 180px\" src=\"https://ca.libraryh3lp.com/chat/upeimoodle@chat.ca.libraryh3lp.com?skin=7721&theme=gota&title=Library%20ASK%20US&identity=library%20staff\" frameborder=\"1\"></iframe></div>
-  <div class=\"libraryh3lp\" style=\"display: none\">Library ASK US is currently offline. Please <a href=\"http://library.upei.ca/node/527\">check our other contact options.</a> </div>
-  <div><br /></div>" ;
-       */
-    $craftyLink .= "<div  style=\"margin-bottom: 0; padding-bottom: 0;\"><a href='http://library.upei.ca/' target='_blank'>Library Homepage</a><br>";
-	$craftyLink .= "<a href = 'http://resources.library.upei.ca/plagiarism/index.htm' target='_blank'>Avoiding Plagiarism</a>";
-	$craftyLink .='<form action="http://islandpines.roblib.upei.ca/opac/en-US/skin/roblib/xml/rresult.xml" method="get" target="_blank"><input name="rt" value="keyword" type="hidden" /><input name="tp" value="keyword" type="hidden" /><input name="t" size="17" value="Search Library Catalogue..." onblur="this.value = this.value || this.defaultValue; this.style.color = \'#999\';" type="text" onFocus="this.value=\'\'" style="color: rgb(153, 153, 153);"/><input value="Go" type="submit" /></form></div><br />';
 
-	return $craftyLink;
+  $craftyLink .= "<div  style=\"margin-bottom: 0; padding-bottom: 0;\"><a href='http://library.upei.ca/' target='_blank'>Library Homepage</a><br>";
+  $craftyLink .= "<a href = 'http://library.upei.ca/academic-integrity-tutorial' target='_blank'>Academic Integrity</a>";
+  $craftyLink .= <<<EOF
+<!-- Search OneSearch Block -->
+<script src="https://support.ebscohost.com/eit/scripts/ebscohostsearch.js" type="text/javascript"></script>
+<form action="" method="post" onsubmit="return ebscoHostSearchGo(this);">
+    <div style="font-size: 10pt;">
+        <input class="form-text" id="ebscohostwindow" name="ebscohostwindow" type="hidden" value="1" />
+        <input id="ebscohosturl" name="ebscohosturl" type="hidden" value="http://search.ebscohost.com/login.aspx?direct=true&amp;site=eds-live&amp;scope=site&amp;custid=uprince&amp;groupid=main&amp;profid=eds&amp;mode=and&amp;lang=en&amp;authtype=ip,guest" />
+        <input id="ebscohostsearchsrc" name="ebscohostsearchsrc" type="hidden" value="db" /> <input id="ebscohostsearchmode" name="ebscohostsearchmode" type="hidden" value="+AND+" />
+        <input id="ebscohostkeywords" name="ebscohostkeywords" type="hidden" value="" />
+        <div class="acc-header" style="margin-top: 20px;"><span >Search the Library</span></div>
+    </div>
+
+    <div style="padding-top:5px;">
+        <input class="form-text" id="ebscohostsearchtext" name="ebscohostsearchtext" onblur="if(this.value == '') { this.value='Find articles, books, &amp; more'}; this.style.color = '#999';" onchange="trackEbscoSearchTerms('OneSearch', 'Search', this.value);" onfocus="if (this.value == 'Find articles, books, &amp; more') {this.value=''}; this.style.color = '#000';" size="30" type="text" value="Find articles, books, &amp; more" /> <input id="onesearchbutton" onclick="validateOneSearch();" type="submit" value="Search" />
+        <div id="guidedFieldSelectors" style="font-size: 10pt;">
+            <input checked="checked" class="radio" data_messageid="findfield_default_text" id="guidedField_0" name="searchFieldSelector" type="hidden" value="" />
+        </div>
+    </div>
+</form>
+EOF;
+  return $craftyLink;
 }
+
 ?>
+
