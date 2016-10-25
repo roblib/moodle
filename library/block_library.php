@@ -100,7 +100,13 @@ EOF;
   $craftyLink .= "<a href = 'http://library.upei.ca/academic-integrity-tutorial' target='_blank'>Academic Integrity</a>";
   $craftyLink .= <<<EOF
 <!-- Search OneSearch Block -->
-<script src="https://support.ebscohost.com/eit/scripts/ebscohostsearch.js" type="text/javascript"></script>
+<script type="text/javascript">
+  (function() {
+    var x = document.createElement("script"); x.type = "text/javascript"; x.async = true;
+    x.src = "https://support.ebscohost.com/eit/scripts/ebscohostsearch.js";
+    var y = document.getElementsByTagName("script")[0]; y.parentNode.insertBefore(x, y);
+  })();
+</script>
 <form action="" method="post" onsubmit="return ebscoHostSearchGo(this);">
     <div style="font-size: 10pt;">
         <input class="form-text" id="ebscohostwindow" name="ebscohostwindow" type="hidden" value="1" />
