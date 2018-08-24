@@ -97,7 +97,7 @@ function getStaticStuff() {
 EOF;
 
   $craftyLink .= "<div  style=\"margin-bottom: 0; padding-bottom: 0;\"><a href='http://library.upei.ca/' target='_blank'>Library Homepage</a><br>";
-  $craftyLink .= "<a href = 'http://library.upei.ca/academic-integrity-tutorial' target='_blank'>Academic Integrity</a>";
+  $craftyLink .= "<a href = 'https://moodle31.upei.ca/course/view.php?id=444' target='_blank'>Academic Integrity</a>";
   $craftyLink .= <<<EOF
 <!-- Search OneSearch Block -->
 <script type="text/javascript">
